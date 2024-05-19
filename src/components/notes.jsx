@@ -42,16 +42,20 @@ export const Notes = ({ videoRef, videoId }) => {
         saveNotes(newNotes);
     };
 
+    const handleTimeStampClick = (timeStamp) => {
+        videoRef.current.seekTo(timeStamp, true);
+    }
+
     return (
-        <>
+        <div className="p-4 border rounded-lg border-gray">
             <NoteForm videoRef={videoRef} addNote={addNote} />
             {notes.length ? (
                 <div>
                     {notes.map((note) => (
-                        <Note key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} />
+                        <Note key={note.id} handleTimeStampClick={handleTimeStampClick} note={note} deleteNote={deleteNote} editNote={editNote} />
                     ))}
                 </div>
             ) : null}
-        </>
+        </div>
     );
 };

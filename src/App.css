@@ -1,9 +1,6 @@
-.note-editor {
-    overflow: hidden;
-    max-height: 300px;
-    transition: max-height 3s ease-out;
-}
-
-.note-editor.expanded {
-    max-height: 300px; /* Adjust height as needed */
+.video-search {
+  max-width: 400px;
+  margin: 150px auto; 
+  padding: 30px;  background-color: #f3f4f6;
+  border-radius: 10px; 
 }

@@ -1,39 +1,64 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
-import "../App.css"
 import "react-quill/dist/quill.snow.css"; // Import Quill's Snow theme CSS
 import { CiCirclePlus } from "react-icons/ci";
 
-const NoteForm = ({videoRef, addNote }) => {
-    const [noteContent, setNoteContent] = useState({ content: "", timeStamp: 0 });
+const NoteForm = ({ videoRef, addNote }) => {
+    const [noteContent, setNoteContent] = useState({
+        content: "",
+        timeStamp: 0,
+    });
     const [isExpanded, setIsExpanded] = useState(false);
 
     const onSave = () => {
         addNote(noteContent);
         setNoteContent({ content: "", timeStamp: 0 });
-        setIsExpanded(false)
+        setIsExpanded(false);
     };
 
     const formatTime = (totalSeconds) => {
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = Math.floor(totalSeconds % 60);
-        const formattedSeconds = seconds.toString().padStart(2, '0'); // Ensure two digits for seconds
-    
-        return `${minutes.toString().padStart(2, '0')}:${formattedSeconds}`;
+        const formattedSeconds = seconds.toString().padStart(2, "0"); // Ensure two digits for seconds
+
+        return `${minutes.toString().padStart(2, "0")}:${formattedSeconds}`;
     };
 
     const newNote = () => {
-        setIsExpanded(true);
-        videoRef.current.pauseVideo();
-        setNoteContent((prevValue) => ({
-            ...prevValue,
-            timeStamp: videoRef.current.getCurrentTime(),
-        }));
+        if (videoRef.current && videoRef.current.pauseVideo && videoRef.current.getCurrentTime) {
+            setIsExpanded(true);
+            videoRef.current.pauseVideo();
+            setNoteContent((prevValue) => ({
+                ...prevValue,
+                timeStamp: videoRef.current.getCurrentTime(),
+            }));
+        } else {
+            console.error("videoRef.current is null or missing methods");
+        }
     };
 
+    useEffect(() => {
+        let interval;
+        if (isExpanded) {
+            interval = setInterval(() => {
+                if (videoRef.current && videoRef.current.getCurrentTime) {
+                    setNoteContent((prevValue) => ({
+                        ...prevValue,
+                        timeStamp: videoRef.current.getCurrentTime(),
+                    }));
+                } else {
+                    console.error("videoRef.current is null or getCurrentTime method is missing");
+                }
+            }, 1000);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isExpanded, videoRef]);
+
     return (
-        <div className="w-full">
-            <div className="flex justify-between w-full">
+        <div className="w-full py-4">
+            <div className="flex justify-between w-full mb-2">
                 <div>
                     <h2 className="text-xl font-bold">My notes</h2>
                     <p>
@@ -41,16 +66,20 @@ const NoteForm = ({videoRef, addNote }) => {
                         go to specific timestamp in the video
                     </p>
                 </div>
-                <button
-                    className="flex items-center gap-2 px-2 py-1 border border-black rounded-md cursor-pointer h-fit"
-                    onClick={newNote}>
-                    <CiCirclePlus size={24} /> Add new note
-                </button>
+                {!isExpanded && (
+                    <button
+                        className="flex items-center gap-2 px-2 py-1 border border-black rounded-md cursor-pointer h-fit"
+                        onClick={newNote}>
+                        <CiCirclePlus size={24} /> Add new note
+                    </button>
+                )}
             </div>
             {isExpanded ? (
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center w-full gap-2 note-editor">
-                        <p className="p-1 font-bold text-white bg-black rounded-xl w-fit">{formatTime(noteContent.timeStamp)}</p>
+                        <p className="p-1 font-bold text-white bg-black rounded-xl w-fit">
+                            {formatTime(noteContent.timeStamp)}
+                        </p>
                         <ReactQuill
                             value={noteContent.content}
                             onChange={(value) =>
