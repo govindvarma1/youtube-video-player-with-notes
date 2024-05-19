@@ -34,7 +34,7 @@ export const Note = ({ handleTimeStampClick, note, deleteNote, editNote }) => {
     return (
         <div className="flex flex-col w-full gap-4 py-4 border-t-2 border-gray-300">
             <div>
-                <p>
+                <p className="text-l">
                     {date.toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",

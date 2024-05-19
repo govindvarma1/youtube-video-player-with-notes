@@ -19,7 +19,7 @@ const NoteForm = ({ videoRef, addNote }) => {
     const cancelNote = () => {
         setNoteContent({ content: "", timeStamp: 0 });
         setIsExpanded(false);
-    }
+    };
 
     const formatTime = (totalSeconds) => {
         const minutes = Math.floor(totalSeconds / 60);
@@ -30,7 +30,11 @@ const NoteForm = ({ videoRef, addNote }) => {
     };
 
     const newNote = () => {
-        if (videoRef.current && videoRef.current.pauseVideo && videoRef.current.getCurrentTime) {
+        if (
+            videoRef.current &&
+            videoRef.current.pauseVideo &&
+            videoRef.current.getCurrentTime
+        ) {
             setIsExpanded(true);
             videoRef.current.pauseVideo();
             setNoteContent((prevValue) => ({
@@ -52,7 +56,9 @@ const NoteForm = ({ videoRef, addNote }) => {
                         timeStamp: videoRef.current.getCurrentTime(),
                     }));
                 } else {
-                    console.error("videoRef.current is null or getCurrentTime method is missing");
+                    console.error(
+                        "videoRef.current is null or getCurrentTime method is missing"
+                    );
                 }
             }, 1000);
         }
@@ -63,22 +69,25 @@ const NoteForm = ({ videoRef, addNote }) => {
 
     return (
         <div className="w-full py-4">
-            <div className="flex justify-between w-full mb-2">
-                <div>
+            <div className="flex flex-col w-full mb-2 lg:items-center lg:flex-row lg:justify-between">
+                <div className="mb-4 lg:mb-0 lg:mr-4">
                     <h2 className="text-xl font-bold">My notes</h2>
                     <p>
                         All your notes at a single place. Click on any note to
-                        go to specific timestamp in the video
+                        go to a specific timestamp in the video.
                     </p>
                 </div>
                 {!isExpanded && (
                     <button
-                        className="flex items-center gap-2 px-2 py-1 border border-black rounded-md cursor-pointer h-fit"
-                        onClick={newNote}>
+                        className="flex items-center gap-2 px-3 py-2 text-sm font-bold border border-black rounded-md cursor-pointer w-fit lg:h-fit"
+                        onClick={newNote}
+                        style={{ minWidth: "100px" }} // Set minimum width for better touch interaction
+                    >
                         <CiCirclePlus size={24} /> Add new note
                     </button>
                 )}
             </div>
+
             {isExpanded ? (
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center w-full gap-2 note-editor">
