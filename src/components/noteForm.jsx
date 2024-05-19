@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
+import "../App.css"
 import "react-quill/dist/quill.snow.css"; // Import Quill's Snow theme CSS
 import { CiCirclePlus } from "react-icons/ci";
 
 const NoteForm = ({videoRef, addNote }) => {
-    const [noteContent, setNoteContent] = useState({ note: "", timeStamp: 0 });
+    const [noteContent, setNoteContent] = useState({ content: "", timeStamp: 0 });
     const [isExpanded, setIsExpanded] = useState(false);
 
     const onSave = () => {
         addNote(noteContent);
+        setNoteContent({ content: "", timeStamp: 0 });
+        setIsExpanded(false)
     };
 
     const formatTime = (totalSeconds) => {
@@ -46,14 +49,14 @@ const NoteForm = ({videoRef, addNote }) => {
             </div>
             {isExpanded ? (
                 <div className="flex flex-col gap-2">
-                    <div className="flex items-center w-full gap-2">
+                    <div className="flex items-center w-full gap-2 note-editor">
                         <p className="p-1 font-bold text-white bg-black rounded-xl w-fit">{formatTime(noteContent.timeStamp)}</p>
                         <ReactQuill
-                            value={noteContent.note}
+                            value={noteContent.content}
                             onChange={(value) =>
                                 setNoteContent((prevValue) => ({
                                     ...prevValue,
-                                    note: value,
+                                    content: value,
                                 }))
                             }
                             theme="snow"
