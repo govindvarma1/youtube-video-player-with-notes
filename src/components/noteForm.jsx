@@ -16,6 +16,11 @@ const NoteForm = ({ videoRef, addNote }) => {
         setIsExpanded(false);
     };
 
+    const cancelNote = () => {
+        setNoteContent({ content: "", timeStamp: 0 });
+        setIsExpanded(false);
+    }
+
     const formatTime = (totalSeconds) => {
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = Math.floor(totalSeconds % 60);
@@ -94,9 +99,7 @@ const NoteForm = ({ videoRef, addNote }) => {
                     </div>
                     <div className="flex justify-end">
                         <button
-                            onClick={() => {
-                                setIsExpanded(false);
-                            }}
+                            onClick={cancelNote}
                             className="px-2 py-1 font-bold">
                             Cancel
                         </button>

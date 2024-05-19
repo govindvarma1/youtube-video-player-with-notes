@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import Quill's Snow theme CSS
+import "react-quill/dist/quill.snow.css";
 
 export const Note = ({ handleTimeStampClick, note, deleteNote, editNote }) => {
     const { id, timeStamp, content } = note;
     const [isEditing, setIsEditing] = useState(false);
     const [modifiedText, setModifiedText] = useState(content);
-
+    
+    
     const discardEdit = () => {
         setModifiedText(content);
         setIsEditing(false);
@@ -31,7 +32,7 @@ export const Note = ({ handleTimeStampClick, note, deleteNote, editNote }) => {
     };
 
     return (
-        <div className="flex flex-col w-full gap-2 py-4 border-t-2">
+        <div className="flex flex-col w-full gap-4 py-4 border-t-2 border-gray-300">
             <div>
                 <p>
                     {date.toLocaleDateString("en-US", {
@@ -51,7 +52,7 @@ export const Note = ({ handleTimeStampClick, note, deleteNote, editNote }) => {
             </div>
             {!isEditing ? (
                 <div
-                    className="p-2 border rounded-lg border-gray"
+                    className="w-auto p-2 prose border rounded-lg border-gray"
                     dangerouslySetInnerHTML={{ __html: content }}
                 />
             ) : (

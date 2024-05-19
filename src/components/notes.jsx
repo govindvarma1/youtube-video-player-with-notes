@@ -50,7 +50,7 @@ export const Notes = ({ videoRef, videoId }) => {
         <div className="p-4 border rounded-lg border-gray">
             <NoteForm videoRef={videoRef} addNote={addNote} />
             {notes.length ? (
-                <div>
+                <div className="flex flex-col w-full h-full">
                     {notes.map((note) => (
                         <Note key={note.id} handleTimeStampClick={handleTimeStampClick} note={note} deleteNote={deleteNote} editNote={editNote} />
                     ))}
