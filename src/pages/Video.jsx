@@ -36,7 +36,7 @@ export const Video = () => {
     }, [videoId]);
 
     return (
-        <div className="container w-10/12 px-4 py-1 mx-auto mb-8">
+        <div className="w-11/12 px-4 py-1 mx-auto mb-8 md:w-10/12 lg:w-10/12">
             <VideoPlayer videoId={videoId} onReady={handleVideoReady} videoDetails={videoDetails}/>
             <Notes videoRef={playerRef} videoId={videoId}/>
         </div>

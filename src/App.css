@@ -6,8 +6,8 @@
 }
 
 .loader {
-  border: 8px solid rgba(255, 255, 255, 0.2); /* Light grey/white */
-  border-left-color: #ffffff; /* White */
+  border: 8px solid rgba(255, 255, 255, 0.2);
+  border-left-color: #ffffff;
   border-radius: 50%;
   width: 60px;
   height: 60px;
