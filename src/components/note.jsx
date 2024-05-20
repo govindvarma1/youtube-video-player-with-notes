@@ -41,14 +41,14 @@ export const Note = ({ handleTimeStampClick, note, deleteNote, editNote }) => {
                         day: "numeric",
                     })}
                 </p>
-                <p>
+                <button>
                     Timestamp:{" "}
                     <span
                         onClick={() => handleTimeStampClick(timeStamp)}
-                        className="text-violet-600 cursor-pointer">
+                        className="cursor-pointer text-violet-600">
                         {formatTime(timeStamp)}
                     </span>
-                </p>
+                </button>
             </div>
             {!isEditing ? (
                 <div
